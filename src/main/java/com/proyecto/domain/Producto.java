@@ -1,109 +1,54 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.proyecto.domain;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import lombok.Data;
-/**
- *
- * @author Paula
- */
-
 
 @Data
 @Entity
 @Table(name = "producto")
-public class Producto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+public class Producto implements Serializable {  //Serializacion funciona para almacenar ciertos datos en el disco
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_producto")
+    private static final long serialVersionUID = 1L; //Para poder hacer el ciclo de la sumatoria del idProducto
+
+    @Id //La tabla producto tiene una llave o identificador que va a ser el ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Los valores generados que tipo de extrategia utilizan, identico = sea igual en la BD y en la clase
+    @Column(name = "id_producto") // Decir cual es el nombre de la columna en la base de datos
     private long idProducto;
-
-    @Column(name = "descripcion")
     private String descripcion;
-
-    @Column(name = "ruta_imagen")
     private String rutaImagen;
-
-    @Column(name = "activo")
     private boolean activo;
+
+    private String detalle;
+    private String marca;
+    private double precio;
+    private int existencias;
+    //private long idCategoria;
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    Categoria categoria;
 
     public Producto() {
     }
 
-    public Producto(String descripcion, boolean activo) {
-        this.descripcion = descripcion;
-        this.activo = activo;
-    }
-
-    // Getters y setters
-
-    public long getIdProducto() {
-        return idProducto;
-    }
-
-    public void setIdProducto(long idProducto) {
+    public Producto(long idProducto, long idCategoria, String descripcion, String detalle, String marca, double precio, int existencias, String rutaImagen, boolean activo) {
         this.idProducto = idProducto;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
+        //this.idCategoria = idCategoria;
         this.descripcion = descripcion;
-    }
-
-    public String getRutaImagen() {
-        return rutaImagen;
-    }
-
-    public void setRutaImagen(String rutaImagen) {
+        this.detalle = detalle;
+        this.marca = marca;
+        this.precio = precio;
+        this.existencias = existencias;
         this.rutaImagen = rutaImagen;
-    }
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
         this.activo = activo;
-    }
-
-    // Métodos toString(), equals() y hashCode()
-
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "idProducto=" + idProducto +
-                ", descripcion='" + descripcion + '\'' +
-                ", rutaImagen='" + rutaImagen + '\'' +
-                ", activo=" + activo +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Producto producto = (Producto) o;
-
-        return idProducto == producto.idProducto;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (idProducto ^ (idProducto >>> 32));
     }
 }
