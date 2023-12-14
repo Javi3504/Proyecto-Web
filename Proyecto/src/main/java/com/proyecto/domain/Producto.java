@@ -8,27 +8,28 @@ import lombok.Data;
 @Entity
 @Table(name = "producto")
 
-public class Producto implements Serializable {
+public class Producto implements Serializable {  //Serializacion funciona para almacenar ciertos datos en el disco
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L; //Para poder hacer el ciclo de la sumatoria del idProducto
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_producto")
-    private Long idProducto;
+    @Id //La tabla producto tiene una llave o identificador que va a ser el ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Los valores generados que tipo de extrategia utilizan, identico = sea igual en la BD y en la clase
+    @Column(name = "id_producto") // Decir cual es el nombre de la columna en la base de datos
+    private long idProducto;
     private String descripcion;
-    private String detalle;
-    private double precio;
-    private int existencias;
     private String rutaImagen;
     private boolean activo;
-    
-    @ManyToOne
-    @JoinColumn(name="id_categoria")
-    Categoria categoria;
-    
-    public Producto() {
 
+    private String detalle;
+    private String marca;
+    private double precio;
+    private int existencias;
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    Categoria categoria;
+
+    public Producto() {
     }
 
     public Producto(String descripcion, String rutaImagen, boolean activo) {
@@ -36,5 +37,4 @@ public class Producto implements Serializable {
         this.rutaImagen = rutaImagen;
         this.activo = activo;
     }
-
 }

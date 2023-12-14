@@ -21,11 +21,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+
 @Configuration
 public class ProjectConfig implements WebMvcConfigurer {
+
     /* Los siguientes métodos son para incorporar el tema de internacionalización en el proyecto */
-    
-    /* localeResolver se utiliza para crear una sesión de cambio de idioma*/
+
+ /* localeResolver se utiliza para crear una sesión de cambio de idioma*/
     @Bean
     public LocaleResolver localeResolver() {
         var slr = new SessionLocaleResolver();
@@ -48,38 +50,39 @@ public class ProjectConfig implements WebMvcConfigurer {
         registro.addInterceptor(localeChangeInterceptor());
     }
 
-    //Bean para poder acceder a los Messages.properties en código...
+    //Poder accesar a los messages.properties     
     @Bean("messageSource")
     public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource= new ResourceBundleMessageSource();
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasenames("messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
-    /* Los siguiente métodos son para implementar el tema de seguridad dentro del proyecto */
+
+    // Los siguiente métodos son para implementar el tema de seguridad dentro del proyecto//
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/registro/nuevo").setViewName("/registro/nuevo");
- }
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((request) -> request
-                .requestMatchers("/","/index","/errores/**",
-                        "/carrito/**","/pruebas/**","/reportes/**",
-                        "/registro/**","/js/**","/webjars/**")
-                        .permitAll()
+                .requestMatchers("/", "/index", "/errores/**",
+                        "/carrito/**", "/pruebas/**", "/reportes/**",
+                        "/registro/**", "/js/**", "/webjars/**")
+                .permitAll()
                 .requestMatchers(
-                        "/producto/nuevo","/producto/guardar",
-                        "/producto/modificar/**","/producto/eliminar/**",
-                        "/categoria/nuevo","/categoria/guardar",
-                        "/categoria/modificar/**","/categoria/eliminar/**",
-                        "/usuario/nuevo","/usuario/guardar",
-                        "/usuario/modificar/**","/usuario/eliminar/**",
+                        "/producto/nuevo", "/producto/guardar",
+                        "/producto/modificar/**", "/producto/eliminar/**",
+                        "/categoria/nuevo", "/categoria/guardar",
+                        "/categoria/modificar/**", "/categoria/eliminar/**",
+                        "/usuario/nuevo", "/usuario/guardar",
+                        "/usuario/modificar/**", "/usuario/eliminar/**",
                         "/reportes/**"
                 ).hasRole("ADMIN")
                 .requestMatchers(
@@ -96,17 +99,15 @@ public class ProjectConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-/* El siguiente método se utiliza para completar la clase no es 
-    realmente funcional, la próxima semana se reemplaza con usuarios de BD */    
-   /*@Bean
+    /*@Bean
     public UserDetailsService users() {
         UserDetails admin = User.builder()
-                .username("juan")
+                .username("kevin")
                 .password("{noop}123")
                 .roles("USER", "VENDEDOR", "ADMIN")
                 .build();
         UserDetails sales = User.builder()
-                .username("rebeca")
+                .username("byron")
                 .password("{noop}456")
                 .roles("USER", "VENDEDOR")
                 .build();
@@ -117,10 +118,10 @@ public class ProjectConfig implements WebMvcConfigurer {
                 .build();
         return new InMemoryUserDetailsManager(user, sales, admin);
     }*/
-    
+
     @Autowired
     private UserDetailsService userDetailsService;
-    
+
     @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder build) throws Exception {
         build.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());

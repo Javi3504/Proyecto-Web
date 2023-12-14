@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
-    //La anotacion autowired crea un unico objeto sin hacer new.
     @Autowired
     private CategoriaDao categoriaDao;
 

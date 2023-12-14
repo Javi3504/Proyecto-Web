@@ -33,6 +33,7 @@ public class ReporteServiceImpl implements ReporteService {
     @Autowired
     DataSource datasource;
     
+    
     @Override
     public ResponseEntity<Resource> generaReporte(String reporte, Map<String, Object> parametros, String tipo) throws IOException {
         try {
@@ -130,5 +131,4 @@ public class ReporteServiceImpl implements ReporteService {
 
     }
 
-    
 }

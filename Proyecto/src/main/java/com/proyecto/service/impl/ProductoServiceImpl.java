@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
-    //La anotacion autowired crea un unico objeto sin hacer new.
     @Autowired
     private ProductoDao productoDao;
 
@@ -42,26 +41,26 @@ public class ProductoServiceImpl implements ProductoService {
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
-    
-    //Se implementa el método para recuperar los productos con una consulta ampliada
+
+        //Esta es mi consulta JPA para traer informacion sobre el precio inferior y el precio superior.
     @Override
     @Transactional(readOnly = true)
-    public List<Producto>buscaProductosPorPrecioEntre(double precioInf, double precioSup) {
+    public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup){
         return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
     }
     
-    //Se implementa el método para recuperar los productos con una consulta JPQL
+    //Esta es mi consulta JPQL para traer informacion sobre el precio inferior y el precio superior.
     @Override
     @Transactional(readOnly = true)
-    public List<Producto>consultaJPQL(double precioInf, double precioSup) {
-        return productoDao.consultaJPQL(precioInf, precioSup);
+    public List<Producto> metodoJPQL(double precioInf, double precioSup){
+        return productoDao.metodoJPQL(precioInf, precioSup);
     }
     
-    //Se implementa el método para recuperar los productos con una consulta SQL
+    //Esta es mi consulta nativo para traer informacion sobre el precio inferior y el precio superior.
     @Override
     @Transactional(readOnly = true)
-    public List<Producto>consultaSQL(double precioInf, double precioSup) {
-        return productoDao.consultaSQL(precioInf, precioSup);
+    public List<Producto> metodoNativo(double precioInf, double precioSup){
+        return productoDao.metodoNativo(precioInf, precioSup);
     }
-    
+
 }

@@ -18,15 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductoController {
 
     @Autowired
-    private ProductoService productoService;
+    private ProductoService productoService;    
     @Autowired
     private CategoriaService categoriaService;
-
+    
     @GetMapping("/listado")
     public String listado(Model model) {
         var categorias = categoriaService.getCategorias(false);
         model.addAttribute("categorias", categorias);
-
+        
         var productos = productoService.getProductos(false);
         model.addAttribute("productos", productos);
         model.addAttribute("totalProductos", productos.size());
@@ -66,6 +66,7 @@ public class ProductoController {
     public String productoModificar(Producto producto, Model model) {
         var categorias = categoriaService.getCategorias(false);
         model.addAttribute("categorias", categorias);
+        
         producto = productoService.getProducto(producto);
         model.addAttribute("producto", producto);
         return "/producto/modifica";

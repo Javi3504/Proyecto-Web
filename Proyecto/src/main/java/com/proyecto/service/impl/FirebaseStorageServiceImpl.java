@@ -20,15 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FirebaseStorageServiceImpl implements FirebaseStorageService {
-
     @Override
     public String cargaImagen(MultipartFile archivoLocalCliente, String carpeta, Long id) {
         try {
             // El nombre original del archivo local del cliene
-            String extension = archivoLocalCliente.getOriginalFilename();
+            String extension = archivoLocalCliente.getOriginalFilename(); //extension -> recortes.png
 
             // Se genera el nombre según el código del articulo. 
-            String fileName = "img" + sacaNumero(id) + extension;
+            String fileName = "img" + sacaNumero(id) + extension; //filename -> img01recortes.png
 
             // Se convierte/sube el archivo a un archivo temporal
             File file = this.convertToFile(archivoLocalCliente);
@@ -51,7 +50,7 @@ public class FirebaseStorageServiceImpl implements FirebaseStorageService {
         ClassPathResource json = new ClassPathResource(rutaJsonFile + File.separator + archivoJsonFile);
         BlobId blobId = BlobId.of(BucketName, rutaSuperiorStorage + "/" + carpeta + "/" + fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-
+        
         Credentials credentials = GoogleCredentials.fromStream(json.getInputStream());
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
